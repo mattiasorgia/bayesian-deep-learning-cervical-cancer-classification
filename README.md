@@ -22,7 +22,7 @@ Progetto personale, sviluppato come notebook Kaggle.
 - **Seconda deduplica, sui quasi-duplicati.** pHash a 64 bit su tutte le 6.620 immagini ridotte, distanza di Hamming tra tutte le coppie: **360 coppie** con al massimo 4 bit di differenza, di cui **147 a cavallo di split diversi** (leakage) e **6 con etichette diverse**. Le coppie sono unite in gruppi con le componenti connesse, i gruppi con etichette in conflitto vengono rimossi e lo split è rifatto **per gruppi**: `StratifiedGroupKFold` a 10 fold, fold 0–1 test, fold 2 validation, fold 3–9 train.
 - **Dataset finale: 6.608 immagini** — 4.638 train, 656 validation, 1.314 test. Nessun gruppo compare in più di uno split (verificato: 0).
 
-<img src="output/01_near_duplicates.png" width="620">
+<img src="01_near_duplicates.png" width="620">
 
 *Quattro coppie di quasi-duplicati trovate con pHash, affiancate: a sinistra e a destra della riga la stessa immagine ricompressa o rifilata, con la classe e lo split di provenienza nel titolo. Da qui è emerso che 147 coppie cadevano a cavallo di split diversi, cioè il leakage che lo split per gruppi elimina.*
 
@@ -149,13 +149,13 @@ Diagrammi di affidabilità a 10 bin e curva di rifiuto, calcolati sia sul valida
 
 **Matrice di confusione, modello bayesiano — validation, 656 immagini.**
 
-<img src="output/02_confusion_bayes_val.png" width="520">
+<img src="02_confusion_bayes_val.png" width="520">
 
 *ASCUS è la classe che si perde: 54 corretti su 94, con 28 letti come NILM. Lo scambio è simmetrico — 19 NILM vengono classificati ASCUS — mentre le altre coppie si confondono per 6–16 immagini. NILM è la classe più stabile (159 su 183), SCC quasi perfetta (106 su 108). L'errore non è rumore diffuso ma uno scambio tra due classi adiacenti per definizione.*
 
 **Curva di rifiuto sul test — 1.314 immagini.**
 
-<img src="output/03_rejection_test.png" width="520">
+<img src="03_rejection_test.png" width="520">
 
 *Accuratezza tenendo solo la frazione più sicura delle immagini, ordinate per entropia. L'ensemble resta sopra gli altri per tutta la curva e il divario si allarga nella coda incerta (attorno al 90% di immagini tenute la distanza dalla baseline è di alcuni punti), ma l'ordine dei modelli è lo stesso che si vede in tabella: il vantaggio dei metodi bayesiani sta nella confidenza dichiarata, non nel ranking dei casi dubbi. Il pannello di calibrazione corrispondente è saltato perché con 10 bin su 1.314 immagini i punti sono troppo rumorosi per essere letti.*
 
